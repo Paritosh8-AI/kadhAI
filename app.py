@@ -145,8 +145,12 @@ st.markdown('<div class="sub-header">The Multi-Modal Agentic Chef for Indian Kit
 # Live Key Status Pill
 from dotenv import load_dotenv
 load_dotenv(override=True)
-has_live_key = bool(os.getenv("GEMINI_API_KEY", "").strip())
-if has_live_key:
+has_gemini = bool(os.getenv("GEMINI_API_KEY", "").strip())
+has_groq = bool(os.getenv("GROQ_API_KEY", "").strip())
+
+if has_gemini and has_groq:
+    st.markdown('<span style="background-color:#E8F5E9;color:#2E7D32;padding:5px 14px;border-radius:12px;font-weight:600;font-size:0.85rem;border:1px solid #A5D6A7;">⚡ Ultra-Fast Hybrid Pipeline: Gemini 3.5 Flash (Vision) + Groq LPUs (Sub-Second Chef)</span>', unsafe_allow_html=True)
+elif has_gemini:
     st.markdown('<span style="background-color:#E8F5E9;color:#2E7D32;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85rem;border:1px solid #A5D6A7;">🟢 Gemini 3.5 Flash Live Engine Active</span>', unsafe_allow_html=True)
 else:
     st.markdown('<span style="background-color:#FFF3E0;color:#E65100;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85rem;border:1px solid #FFCC80;">🟡 Running in Offline Demo Mode</span>', unsafe_allow_html=True)

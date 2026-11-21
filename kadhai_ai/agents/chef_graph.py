@@ -119,11 +119,17 @@ class KadhaiChefAgent:
         Invokes LLM (Groq Llama 3.3 or Gemini) to generate recipes.
         Falls back to curated authentic recipes if API keys are not present.
         """
-        # If Groq is available, use ultra-fast Llama 3.3 70B
+        # If Groq is available, use ultra-fast LPU inference (GPT-OSS 120B / 20B)
         if self.groq_api_key and self.groq_api_key != "your_groq_api_key_here":
             try:
                 from groq import Groq
                 client = Groq(api_key=self.groq_api_key)
+
+                schema_str = json.dumps(Recipe.model_json_schema())
+                sys_prompt = (
+                    "You are kadhAI. Respond ONLY with a valid JSON object containing a 'recipes' list of Recipe objects. "
+                    f"Every Recipe object in the list MUST adhere strictly to this JSON Schema:\n{schema_str}"
+                )
 
                 prompt = CHEF_REASONING_PROMPT.format(
                     ingredients=", ".join(state.available_ingredient_names),
@@ -136,20 +142,16 @@ class KadhaiChefAgent:
 
                 chat_completion = client.chat.completions.create(
                     messages=[
-                        {
-                            "role": "system",
-                            "content": "You are KadhaiAI. Respond ONLY with a valid JSON array of Recipe objects."
-                        },
+                        {"role": "system", "content": sys_prompt},
                         {"role": "user", "content": prompt}
                     ],
-                    model="llama-3.3-70b-versatile",
+                    model="openai/gpt-oss-120b",
                     temperature=0.3,
                     response_format={"type": "json_object"}
                 )
 
                 content = chat_completion.choices[0].message.content
                 data = json.loads(content)
-                # Handle whether model returns {"recipes": [...]} or direct list
                 recipe_list = data if isinstance(data, list) else data.get("recipes", list(data.values())[0])
                 return [Recipe.model_validate(r) for r in recipe_list]
 
@@ -177,7 +179,7 @@ class KadhaiChefAgent:
                 )
 
                 response = client.models.generate_content(
-                    model="gemini-2.0-flash",
+                    model="gemini-3.5-flash",
                     contents=prompt,
                     config=types.GenerateContentConfig(
                         response_mime_type="application/json",
