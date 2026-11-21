@@ -19,10 +19,10 @@ import axios from 'axios';
 import PhoneMockup from './PhoneMockup';
 import MobileApp from './MobileApp';
 
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = '/api';
 
 export default function LandingPage() {
-  const [mobileUrl, setMobileUrl] = useState('http://localhost:5173');
+  const [mobileUrl, setMobileUrl] = useState('https://c390e9b8b52f4d.app.lhr.life');
   const [localIp, setLocalIp] = useState('localhost');
 
   useEffect(() => {
