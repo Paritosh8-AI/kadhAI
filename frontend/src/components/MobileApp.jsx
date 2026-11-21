@@ -148,26 +148,6 @@ export default function MobileApp({ isInsideMockup = false }) {
   return (
     <div className={`w-full h-full flex flex-col bg-[#0c0d12] text-white select-none ${isInsideMockup ? 'font-sans' : 'min-h-screen max-w-md mx-auto shadow-2xl'}`}>
       
-      {/* If opened on mobile browser (web preview), show instant install button */}
-      {!isInsideMockup && typeof window !== 'undefined' && !window.Capacitor?.isNativePlatform?.() && (
-        <div className="bg-gradient-to-r from-orange-950/90 via-[#181926] to-orange-950/90 border-b border-orange-500/30 px-3.5 py-2 flex items-center justify-between z-50">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[11px] font-medium text-orange-200">
-              Web Preview
-            </span>
-          </div>
-          <a 
-            href="/kadhAI.apk" 
-            download="kadhAI.apk"
-            className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold text-[11px] px-3 py-1 rounded-full shadow-md active:scale-95 transition-all flex items-center gap-1.5"
-          >
-            <Download className="w-3.5 h-3.5" />
-            Install Native App (.apk)
-          </a>
-        </div>
-      )}
-
       {/* If Not Authenticated, show sleek Phone OTP Login flow */}
       {!user ? (
         <AuthScreens onAuthenticated={(u) => setUser(u)} />
