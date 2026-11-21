@@ -15,7 +15,7 @@ from kadhai_ai.agents.state import ChefState
 
 
 CHEF_REASONING_PROMPT = """
-You are 'KadhaiAI' (कढ़ाई AI) — a master Indian Executive Chef and culinary mentor.
+You are 'kadhAI' — a master Indian Executive Chef and culinary mentor.
 Your job is to craft authentic, practical, delicious Indian recipes using the user's scanned pantry inventory.
 
 INPUT CONTEXT:

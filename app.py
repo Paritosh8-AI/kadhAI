@@ -15,7 +15,7 @@ from kadhai_ai.agents.chef_graph import KadhaiChefAgent
 
 # Page Configuration
 st.set_page_config(
-    page_title="KadhaiAI | The Indian Kitchen Agent",
+    page_title="kadhAI | The Indian Kitchen Agent",
     page_icon="🍲",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -78,7 +78,7 @@ st.markdown(
 
 # Sidebar Configuration
 with st.sidebar:
-    st.image("https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&q=80", caption="कढ़ाई AI - Ghar Ka Smart Chef")
+    st.image("https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&q=80", caption="kadhAI - Ghar Ka Smart Chef")
     st.markdown("### ⚙️ Indian Kitchen Settings")
 
     dietary_pref = st.selectbox(
@@ -143,7 +143,7 @@ with st.sidebar:
     groq_key = st.text_input("Groq API Key", type="password", help="For ultra-fast Llama 3.3 70B chef reasoning")
 
 # Main Interface Header
-st.markdown('<div class="main-header">🍲 KadhaiAI</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-header">🍲 kadhAI</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">The Multi-Modal Agentic Chef for Indian Kitchens & Quick-Commerce Arbitrage</div>', unsafe_allow_html=True)
 
 # Tabs for input modes
@@ -173,7 +173,7 @@ with tab_demo:
     st.markdown(
         """
         **Don't have a fridge photo handy?**
-        Click the button below to test **KadhaiAI** with a realistic Indian fridge inventory snapshot
+        Click the button below to test **kadhAI** with a realistic Indian fridge inventory snapshot
         (fresh paneer, desi tomatoes, capsicum, coriander, green chillies, and yesterday's leftover toor dal).
         """
     )
@@ -184,7 +184,7 @@ with tab_demo:
 should_run = (image_to_process is not None) or st.session_state.get("use_demo_sample", False)
 
 if should_run:
-    with st.spinner("🔍 KadhaiAI Vision Engine scanning ingredients and detecting leftovers..."):
+    with st.spinner("🔍 kadhAI Vision Engine scanning ingredients and detecting leftovers..."):
         extractor = IndianKitchenVisionExtractor(api_key=gemini_key)
         if image_to_process:
             scan_result = extractor.scan_pantry_image(image_to_process)
@@ -233,7 +233,7 @@ if should_run:
     st.markdown("---")
 
     # Agent Chef Execution
-    with st.spinner("👩‍🍳 KadhaiAI Chef Agent is formulating recipes, calculating tadka sequence, and mapping Blinkit links..."):
+    with st.spinner("👩‍🍳 kadhAI Chef Agent is formulating recipes, calculating tadka sequence, and mapping Blinkit links..."):
         agent = KadhaiChefAgent(groq_api_key=groq_key, gemini_api_key=gemini_key)
         state = ChefState(
             scan_result=scan_result,
@@ -318,7 +318,7 @@ if should_run:
             )
 
             # WhatsApp Share Formatter
-            whatsapp_text = f"Hey! Cooking {recipe.title} tonight using KadhaiAI 🍲.\nPrep time: {recipe.cook_time_minutes} mins.\n"
+            whatsapp_text = f"Hey! Cooking {recipe.title} tonight using kadhAI 🍲.\nPrep time: {recipe.cook_time_minutes} mins.\n"
             if recipe.missing_ingredients:
                 whatsapp_text += "Can someone quick-order these from Blinkit/Zepto?\n"
                 for m in recipe.missing_ingredients:
