@@ -10,8 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
     "@tailwindcss/vite": "^4.3.5",
     "axios": "^1.21.1",
+    "canvas-confetti": "^1.9.4",
+    "framer-motion": "^14.14.0",
     "lucide-react": "^1.77.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.3.1",

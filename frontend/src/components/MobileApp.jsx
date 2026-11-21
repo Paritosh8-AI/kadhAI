@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   Camera, 
   Upload, 
@@ -7,30 +7,55 @@ import {
   Clock, 
   Users, 
   Share2, 
-  ExternalLink, 
-  CheckCircle2, 
-  AlertTriangle, 
   Sliders, 
   ChefHat, 
   Package, 
   RefreshCw,
   ShoppingBag,
-  Leaf
+  Leaf,
+  LogOut,
+  User as UserIcon,
+  Heart
 } from 'lucide-react';
 import axios from 'axios';
+import AuthScreens from './AuthScreens';
 
 const API_BASE = '/api';
 
 export default function MobileApp({ isInsideMockup = false }) {
+  // Auth State
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('kadhai_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+
   // Navigation State
-  const [activeTab, setActiveTab] = useState('scan'); // 'scan', 'pantry', 'recipes', 'settings'
+  const [activeTab, setActiveTab] = useState('scan'); // 'scan', 'pantry', 'recipes', 'profile'
   const [showSettingsModal, setShowSettingsModal] = useState(false);
 
   // Kitchen State
-  const [dietaryPref, setDietaryPref] = useState('pure_veg');
+  const [dietaryPref, setDietaryPref] = useState(user?.diet || 'pure_veg');
   const [cuisinePref, setCuisinePref] = useState('pan_indian');
   const [spiceLevel, setSpiceLevel] = useState('Medium Desi');
   const [maxCookTime, setMaxCookTime] = useState(30);
+
+  // Synchronize dietary preference when user changes
+  useEffect(() => {
+    if (user?.diet) {
+      setDietaryPref(user.diet);
+    }
+  }, [user]);
+
+  // Handle Logout
+  const handleLogout = () => {
+    localStorage.removeItem('kadhai_token');
+    localStorage.removeItem('kadhai_user');
+    setUser(null);
+  };
 
   // API State
   const [loading, setLoading] = useState(false);
@@ -122,30 +147,35 @@ export default function MobileApp({ isInsideMockup = false }) {
   return (
     <div className={`w-full h-full flex flex-col bg-[#0c0d12] text-white select-none ${isInsideMockup ? 'font-sans' : 'min-h-screen max-w-md mx-auto shadow-2xl'}`}>
       
-      {/* App Top Bar */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#12131a]/80 backdrop-blur-md sticky top-0 z-40">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-lg shadow-md shadow-orange-600/30">
-            🍲
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold tracking-tight font-display bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
-              kadhAI
-            </h1>
-            <p className="text-[10px] text-gray-400 font-medium">Ghar Ka Smart Chef</p>
-          </div>
-        </div>
+      {/* If Not Authenticated, show sleek Phone OTP Login flow */}
+      {!user ? (
+        <AuthScreens onAuthenticated={(u) => setUser(u)} />
+      ) : (
+        <>
+          {/* App Top Bar */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#12131a]/80 backdrop-blur-md sticky top-0 z-40">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-lg shadow-md shadow-orange-600/30">
+                🍲
+              </div>
+              <div>
+                <h1 className="text-sm font-extrabold tracking-tight font-display bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
+                  Namaste, {user.name?.split(' ')[0]}! 🙏
+                </h1>
+                <p className="text-[10px] text-gray-400 font-medium">kadhAI Smart Kitchen</p>
+              </div>
+            </div>
 
-        <div className="flex items-center gap-1.5">
-          <button 
-            onClick={() => setShowSettingsModal(true)}
-            className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/5 border border-white/10 hover:bg-white/10 text-orange-300 transition-colors"
-          >
-            {getDietLabel(dietaryPref)}
-            <Sliders className="w-3 h-3 text-gray-400 ml-0.5" />
-          </button>
-        </div>
-      </div>
+            <div className="flex items-center gap-1.5">
+              <button 
+                onClick={() => setShowSettingsModal(true)}
+                className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/5 border border-white/10 hover:bg-white/10 text-orange-300 transition-colors"
+              >
+                {getDietLabel(dietaryPref)}
+                <Sliders className="w-3 h-3 text-gray-400 ml-0.5" />
+              </button>
+            </div>
+          </div>
 
       {/* Main Screen Body */}
       <div className="flex-1 overflow-y-auto px-4 py-4 pb-24">
@@ -554,8 +584,25 @@ export default function MobileApp({ isInsideMockup = false }) {
               />
             </div>
 
+            {/* Logout button */}
+            <div className="pt-2 border-t border-white/5">
+              <button
+                onClick={() => {
+                  setShowSettingsModal(false);
+                  handleLogout();
+                }}
+                className="w-full py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Log Out (+91 {user?.phone?.replace('+91', '')})</span>
+              </button>
+            </div>
+
           </div>
         </div>
+      )}
+
+      </>
       )}
 
     </div>
