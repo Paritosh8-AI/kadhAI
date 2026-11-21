@@ -136,11 +136,7 @@ with st.sidebar:
         format="%d mins",
     )
 
-    st.markdown("---")
-    st.markdown("### 🔑 API Keys (Optional)")
-    st.markdown("<small>Free keys from Google AI Studio & Groq Cloud. Leave empty to run in instant demo mode!</small>", unsafe_allow_html=True)
-    gemini_key = st.text_input("Gemini API Key", type="password", help="For live vision detection")
-    groq_key = st.text_input("Groq API Key", type="password", help="For ultra-fast Llama 3.3 70B chef reasoning")
+
 
 # Main Interface Header
 st.markdown('<div class="main-header">🍲 kadhAI</div>', unsafe_allow_html=True)
@@ -185,7 +181,7 @@ should_run = (image_to_process is not None) or st.session_state.get("use_demo_sa
 
 if should_run:
     with st.spinner("🔍 kadhAI Vision Engine scanning ingredients and detecting leftovers..."):
-        extractor = IndianKitchenVisionExtractor(api_key=gemini_key)
+        extractor = IndianKitchenVisionExtractor()
         if image_to_process:
             scan_result = extractor.scan_pantry_image(image_to_process)
         else:
@@ -234,7 +230,7 @@ if should_run:
 
     # Agent Chef Execution
     with st.spinner("👩‍🍳 kadhAI Chef Agent is formulating recipes, calculating tadka sequence, and mapping Blinkit links..."):
-        agent = KadhaiChefAgent(groq_api_key=groq_key, gemini_api_key=gemini_key)
+        agent = KadhaiChefAgent()
         state = ChefState(
             scan_result=scan_result,
             dietary_preference=dietary_pref,
