@@ -158,7 +158,7 @@ with tab_upload:
     )
     if uploaded_file:
         image_to_process = Image.open(uploaded_file)
-        st.image(image_to_process, caption="Uploaded Kitchen Photo", use_container_width=True)
+        st.image(image_to_process, caption="Uploaded Kitchen Photo", width="stretch")
 
 with tab_camera:
     camera_pic = st.camera_input("Snap a live photo of your fridge shelf")
