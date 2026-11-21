@@ -153,14 +153,19 @@ export default function MobileApp({ isInsideMockup = false }) {
         <AuthScreens onAuthenticated={(u) => setUser(u)} />
       ) : (
         <>
-          {/* App Top Bar */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#12131a]/80 backdrop-blur-md sticky top-0 z-40">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-lg shadow-md shadow-orange-600/30">
+          {/* App Top Bar with Notch & Status Bar Safe Clearance */}
+          <div 
+            style={{ 
+              paddingTop: isInsideMockup ? '0.75rem' : 'max(env(safe-area-inset-top, 0px), 3rem)' 
+            }}
+            className="flex items-center justify-between px-4 pb-3 border-b border-white/5 bg-[#12131a]/95 backdrop-blur-md sticky top-0 z-40"
+          >
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center text-lg shadow-md shadow-orange-600/30 shrink-0">
                 🍲
               </div>
               <div>
-                <h1 className="text-sm font-extrabold tracking-tight font-display bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
+                <h1 className="text-sm font-extrabold tracking-tight font-display bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent leading-tight">
                   Namaste, {user.name?.split(' ')[0]}! 🙏
                 </h1>
                 <p className="text-[10px] text-emerald-400 font-medium flex items-center gap-1">
@@ -490,7 +495,13 @@ export default function MobileApp({ isInsideMockup = false }) {
       </div>
 
       {/* Floating Bottom Navigation Bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 bg-[#12131a]/95 backdrop-blur-lg border-t border-white/5 flex items-center justify-around px-4 z-40">
+      <div 
+        style={{
+          paddingBottom: isInsideMockup ? '0.25rem' : 'max(env(safe-area-inset-bottom, 0px), 0.75rem)',
+          height: isInsideMockup ? '4rem' : 'calc(4rem + max(env(safe-area-inset-bottom, 0px), 0.5rem))'
+        }}
+        className="absolute bottom-0 left-0 right-0 bg-[#12131a]/95 backdrop-blur-lg border-t border-white/5 flex items-center justify-around px-4 z-40"
+      >
         <button 
           onClick={() => setActiveTab('scan')}
           className={`flex flex-col items-center gap-1 transition-colors ${activeTab === 'scan' ? 'text-orange-400' : 'text-gray-500 hover:text-gray-300'}`}

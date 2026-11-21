@@ -124,9 +124,15 @@ export default function AuthScreens({ onAuthenticated }) {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center px-5 py-8 text-white select-none relative">
+    <div 
+      style={{ paddingTop: 'max(env(safe-area-inset-top, 0px), 3rem)' }}
+      className="flex-1 flex flex-col justify-center px-5 py-8 text-white select-none relative"
+    >
       {/* Top Reload / Live Sync Button */}
-      <div className="absolute top-4 right-4 z-50">
+      <div 
+        style={{ top: 'max(env(safe-area-inset-top, 0px), 1.25rem)' }}
+        className="absolute right-4 z-50"
+      >
         <button
           type="button"
           onClick={() => window.location.reload()}
