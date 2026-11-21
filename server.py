@@ -271,6 +271,31 @@ def generate_recipes(req: RecipeRequest):
         raise HTTPException(status_code=500, detail=f"Recipe generation failed: {str(e)}")
 
 
+# Direct Android APK Download endpoints with explicit MIME type & download headers
+@app.get("/download/apk")
+@app.get("/kadhAI.apk")
+@app.get("/kadhai.apk")
+async def download_apk():
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "dist-apk", "app-debug.apk"),
+        os.path.join(os.path.dirname(__file__), "frontend", "dist", "kadhAI.apk"),
+        os.path.join(os.path.dirname(__file__), "frontend", "android", "app", "build", "outputs", "apk", "debug", "app-debug.apk")
+    ]
+    for apk_path in candidates:
+        if os.path.exists(apk_path):
+            return FileResponse(
+                apk_path,
+                media_type="application/vnd.android.package-archive",
+                filename="kadhAI.apk",
+                headers={
+                    "Content-Disposition": "attachment; filename=kadhAI.apk",
+                    "Content-Type": "application/vnd.android.package-archive",
+                    "Cache-Control": "no-cache"
+                }
+            )
+    raise HTTPException(status_code=404, detail="APK binary not found")
+
+
 # Mount frontend dist static files for seamless single-server deployment
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse

@@ -179,13 +179,14 @@ export default function LandingPage() {
               className="flex flex-wrap items-center gap-3.5 pt-2"
             >
               <a 
-                href="#playstore"
+                href="/kadhAI.apk"
+                download="kadhAI.apk"
                 className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold text-xs flex items-center gap-3 transition-all shadow-xl shadow-orange-600/30 active:scale-95"
               >
                 <Play className="w-5 h-5 fill-current text-white" />
                 <div className="text-left">
                   <div className="text-[9px] uppercase tracking-wider text-orange-200">Download for Android</div>
-                  <div className="text-sm font-black leading-none">Google Play Store</div>
+                  <div className="text-sm font-black leading-none">Install APK Directly</div>
                 </div>
               </a>
 
@@ -434,20 +435,21 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-            <button 
-              onClick={() => alert("kadhAI APK / AAB is ready in frontend/android. You can also install as PWA by tapping 'Add to Home Screen' on Chrome/Safari!")}
+            <a 
+              href="/kadhAI.apk"
+              download="kadhAI.apk"
               className="px-8 py-4 rounded-2xl bg-gradient-to-r from-orange-600 via-orange-500 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-bold text-sm shadow-xl shadow-orange-600/30 flex items-center gap-3 transition-all active:scale-95"
             >
-              <Play className="w-5 h-5 fill-current" />
+              <Download className="w-5 h-5" />
               <span>Download kadhAI (Android APK)</span>
-            </button>
+            </a>
 
             <button 
-              onClick={() => alert("On your iPhone, simply open https://earth-duo-discrete-lasting.trycloudflare.com and tap Share -> Add to Home Screen!")}
+              onClick={() => alert("On iOS, open the link in Safari, tap the Share icon at the bottom, and select 'Add to Home Screen' for the full app experience!")}
               className="px-8 py-4 rounded-2xl bg-[#181926] hover:bg-[#202232] border border-white/10 text-white font-bold text-sm flex items-center gap-3 transition-all active:scale-95"
             >
               <Apple className="w-5 h-5" />
-              <span>Install for Apple iOS</span>
+              <span>Install for Apple iOS (PWA)</span>
             </button>
           </div>
 
