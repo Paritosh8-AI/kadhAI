@@ -19,3 +19,7 @@ Thumbs.db
 # Output & Artifacts
 logs/
 data/uploads/
+cloudflared.exe
+*.db
+*.sqlite3
+*.apk
