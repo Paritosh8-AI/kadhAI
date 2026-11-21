@@ -1,0 +1,23 @@
+# Core LLM & Vision
+google-genai>=0.1.1
+groq>=0.18.0
+
+# Schemas & Validation
+pydantic>=2.10.0
+pydantic-settings>=2.7.0
+
+# Agentic Orchestration & Graph
+langgraph>=0.2.70
+langchain-core>=0.3.35
+
+# Image Processing & Utilities
+pillow>=11.1.0
+python-dotenv>=1.0.1
+rich>=13.9.4
+requests>=2.32.3
+
+# UI & Visualization
+streamlit>=1.42.0
+
+# Testing & Quality
+pytest>=8.3.4
