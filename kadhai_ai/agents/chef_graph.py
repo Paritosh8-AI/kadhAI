@@ -154,7 +154,42 @@ class KadhaiChefAgent:
                 return [Recipe.model_validate(r) for r in recipe_list]
 
             except Exception as e:
-                print(f"[ChefAgent] Groq error: {e}. Falling back to default recipes.")
+                print(f"[ChefAgent] Groq error: {e}. Falling back to Gemini or default recipes.")
+
+        # If Groq is not configured but Gemini is, use Gemini 2.0 Flash for reasoning
+        if self.gemini_api_key and self.gemini_api_key != "your_gemini_api_key_here":
+            try:
+                from google import genai
+                from google.genai import types
+                from pydantic import BaseModel
+
+                class RecipeListContainer(BaseModel):
+                    recipes: List[Recipe]
+
+                client = genai.Client(api_key=self.gemini_api_key)
+                prompt = CHEF_REASONING_PROMPT.format(
+                    ingredients=", ".join(state.available_ingredient_names),
+                    leftovers=", ".join(state.filtered_leftovers) if state.has_leftovers else "None",
+                    dietary_preference=state.dietary_preference.value,
+                    cuisine_preference=state.cuisine_preference.value,
+                    max_time=state.max_cooking_time_minutes,
+                    spice_level=state.spice_level
+                )
+
+                response = client.models.generate_content(
+                    model="gemini-2.0-flash",
+                    contents=prompt,
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        response_schema=RecipeListContainer,
+                        temperature=0.3,
+                    ),
+                )
+                if response.text:
+                    container = RecipeListContainer.model_validate_json(response.text)
+                    return container.recipes
+            except Exception as e:
+                print(f"[ChefAgent] Gemini error: {e}. Falling back to default recipes.")
 
         # Default high-quality authentic recipes for testing/demo
         return self._get_fallback_recipes(state)
