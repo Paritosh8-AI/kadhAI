@@ -184,8 +184,24 @@ export default function AuthScreens({ onAuthenticated }) {
 
       {/* STEP 2: OTP VERIFICATION */}
       {step === 'otp' && (
-        <div className="space-y-6">
-          <div className="space-y-2 text-center">
+        <div className="space-y-5">
+          {/* Simulated Incoming Push Notification / SMS */}
+          <div className="p-3.5 rounded-2xl bg-gradient-to-r from-slate-900 via-[#181d2f] to-slate-900 border border-blue-500/30 shadow-2xl flex items-start gap-3">
+            <div className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0 text-base">
+              💬
+            </div>
+            <div className="flex-1 text-left">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-blue-300">kadhAI Verification SMS</span>
+                <span className="text-[9px] text-emerald-400 font-semibold bg-emerald-950/60 px-1.5 py-0.5 rounded-full border border-emerald-500/30">Delivered</span>
+              </div>
+              <p className="text-xs text-gray-200 mt-1 leading-snug">
+                Your kadhAI login OTP is <span className="font-black text-amber-300 text-sm tracking-wider underline">4242</span>. Valid for 5 mins.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-1 text-center">
             <div className="w-12 h-12 mx-auto rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-orange-400">
               <Smartphone className="w-6 h-6" />
             </div>
@@ -193,8 +209,13 @@ export default function AuthScreens({ onAuthenticated }) {
               Verify OTP Code
             </h2>
             <p className="text-xs text-gray-400">
-              Sent 4-digit code to <span className="text-white font-bold">+91 {phone}</span>
+              Enter the 4-digit code sent to <span className="text-white font-bold">+91 {phone}</span>
             </p>
+            <div className="pt-1">
+              <span className="inline-block px-2.5 py-0.5 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-300 text-[11px] font-bold">
+                Test OTP: 4242
+              </span>
+            </div>
           </div>
 
           {/* 4 Digit Boxes */}
