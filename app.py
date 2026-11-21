@@ -142,6 +142,16 @@ with st.sidebar:
 st.markdown('<div class="main-header">🍲 kadhAI</div>', unsafe_allow_html=True)
 st.markdown('<div class="sub-header">The Multi-Modal Agentic Chef for Indian Kitchens & Quick-Commerce Arbitrage</div>', unsafe_allow_html=True)
 
+# Live Key Status Pill
+from dotenv import load_dotenv
+load_dotenv(override=True)
+has_live_key = bool(os.getenv("GEMINI_API_KEY", "").strip())
+if has_live_key:
+    st.markdown('<span style="background-color:#E8F5E9;color:#2E7D32;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85rem;border:1px solid #A5D6A7;">🟢 Gemini 3.5 Flash Live Engine Active</span>', unsafe_allow_html=True)
+else:
+    st.markdown('<span style="background-color:#FFF3E0;color:#E65100;padding:4px 12px;border-radius:12px;font-weight:600;font-size:0.85rem;border:1px solid #FFCC80;">🟡 Running in Offline Demo Mode</span>', unsafe_allow_html=True)
+st.write("")
+
 # Tabs for input modes
 tab_upload, tab_camera, tab_demo = st.tabs([
     "📸 Upload Fridge Photo",
@@ -157,12 +167,14 @@ with tab_upload:
         type=["jpg", "jpeg", "png"],
     )
     if uploaded_file:
+        st.session_state["use_demo_sample"] = False
         image_to_process = Image.open(uploaded_file)
         st.image(image_to_process, caption="Uploaded Kitchen Photo", width="stretch")
 
 with tab_camera:
     camera_pic = st.camera_input("Snap a live photo of your fridge shelf")
     if camera_pic:
+        st.session_state["use_demo_sample"] = False
         image_to_process = Image.open(camera_pic)
 
 with tab_demo:
