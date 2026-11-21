@@ -72,9 +72,9 @@ class IndianKitchenVisionExtractor:
 
             client = genai.Client(api_key=self.api_key)
 
-            # We use gemini-2.0-flash for high-speed multi-modal reasoning
+            # We use gemini-3.5-flash for high-speed multi-modal reasoning
             response = client.models.generate_content(
-                model="gemini-2.0-flash",
+                model="gemini-3.5-flash",
                 contents=[image, INDIAN_KITCHEN_SYSTEM_PROMPT],
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
