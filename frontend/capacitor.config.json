@@ -1,5 +1,9 @@
 {
   "appId": "com.kadhai.app",
   "appName": "kadhAI",
-  "webDir": "dist"
+  "webDir": "dist",
+  "server": {
+    "url": "https://earth-duo-discrete-lasting.trycloudflare.com",
+    "cleartext": true
+  }
 }

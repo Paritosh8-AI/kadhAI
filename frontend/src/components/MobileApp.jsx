@@ -163,7 +163,10 @@ export default function MobileApp({ isInsideMockup = false }) {
                 <h1 className="text-sm font-extrabold tracking-tight font-display bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
                   Namaste, {user.name?.split(' ')[0]}! 🙏
                 </h1>
-                <p className="text-[10px] text-gray-400 font-medium">kadhAI Smart Kitchen</p>
+                <p className="text-[10px] text-emerald-400 font-medium flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Live Smart Kitchen</span>
+                </p>
               </div>
             </div>
 
