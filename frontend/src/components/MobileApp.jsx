@@ -170,7 +170,16 @@ export default function MobileApp({ isInsideMockup = false }) {
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
+              {/* Tap to Reload / Live Sync Button */}
+              <button
+                onClick={() => window.location.reload()}
+                title="Tap to sync latest changes"
+                className="p-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 hover:text-white transition-all active:rotate-180 duration-300 flex items-center justify-center"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-emerald-400" />
+              </button>
+
               <button 
                 onClick={() => setShowSettingsModal(true)}
                 className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-white/5 border border-white/10 hover:bg-white/10 text-orange-300 transition-colors"

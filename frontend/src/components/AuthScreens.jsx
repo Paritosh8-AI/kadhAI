@@ -124,7 +124,18 @@ export default function AuthScreens({ onAuthenticated }) {
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-center px-5 py-8 text-white select-none">
+    <div className="flex-1 flex flex-col justify-center px-5 py-8 text-white select-none relative">
+      {/* Top Reload / Live Sync Button */}
+      <div className="absolute top-4 right-4 z-50">
+        <button
+          type="button"
+          onClick={() => window.location.reload()}
+          title="Reload & Sync"
+          className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-white transition-all active:rotate-180 duration-300 flex items-center justify-center"
+        >
+          <RefreshCw className="w-3.5 h-3.5 text-emerald-400" />
+        </button>
+      </div>
       
       {/* STEP 1: PHONE NUMBER */}
       {step === 'phone' && (
